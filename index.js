@@ -1,7 +1,9 @@
-const express = require('express');
-const bodyparser = require('body-parser');
-const sequelize = require('./util/database');
-const User = require('./models/user');
+const express = require("express");
+const bodyparser = require("body-parser");
+const sequelize = require("./util/database");
+const User = require("./models/user");
+const Role = require("./models/role");
+const runInitDbValues = require("./util/migration-up");
 
 const app = express();
 
@@ -9,18 +11,19 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   next();
 });
 
 //test route
-app.get('/', (req, res, next) => {
-  res.send('Hello World');
+app.get("/", (req, res, next) => {
+  res.send("Hello World");
 });
 
 //CRUD routes
-app.use('/users', require('./routes/users'));
+app.use("/users", require("./routes/users"));
+app.use("/roles", require("./routes/roles"));
 
 //error handling
 app.use((error, req, res, next) => {
@@ -33,8 +36,9 @@ app.use((error, req, res, next) => {
 //sync database
 sequelize
   .sync()
-  .then(result => {
+  .then((result) => {
     console.log("Database connected");
+
     app.listen(3000);
   })
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
