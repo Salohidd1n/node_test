@@ -1,9 +1,7 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const sequelize = require("./util/database");
-const User = require("./models/user");
-const Role = require("./models/role");
-const runInitDbValues = require("./util/migration-up");
+const authMid = require("./middleware/auth");
 
 const app = express();
 
@@ -21,9 +19,12 @@ app.get("/", (req, res, next) => {
   res.send("Hello World");
 });
 
+//AUTH routes
+app.use("/auth", require("./routes/auth"));
+
 //CRUD routes
-app.use("/users", require("./routes/users"));
-app.use("/roles", require("./routes/roles"));
+app.use("/users", authMid, require("./routes/users"));
+app.use("/roles", authMid, require("./routes/roles"));
 
 //error handling
 app.use((error, req, res, next) => {

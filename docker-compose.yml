@@ -12,6 +12,7 @@ services:
       - PG_USER=otabek
       - PG_PASSWORD=12345
       - PG_HOST=node_db
+      - TOKEN_KEY=tripoasia-secret
     depends_on:
       - node_db
 
@@ -24,6 +25,7 @@ services:
       - POSTGRES_DB=tripoasia_db
       - POSTGRES_USER=otabek
       - POSTGRES_PASSWORD=12345
+      - TOKEN_KEY=tripoasia-secret
     volumes:
       - node_db_data:/var/lib/postgresql/data
 
