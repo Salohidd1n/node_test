@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const db = require("../util/database");
+const Sequelize = require('sequelize')
+const db = require('../util/database')
 
 const Role = db.define(
-  "role",
+  'role',
   {
     id: {
       type: Sequelize.UUID,
@@ -14,23 +14,23 @@ const Role = db.define(
   {
     timestamps: false,
     hooks: {
-      afterSync: async () => {
+      afterSync: () => {
         try {
-          await Role.create({
-            id: "8dcc49a6-4ef4-11ee-be56-0242ac120002",
-            name: "admin"
-          });
+          Role.create({
+            id: '8dcc49a6-4ef4-11ee-be56-0242ac120002',
+            name: 'admin'
+          })
 
-          await Role.create({
-            id: "7e5916de-4ef9-11ee-be56-0242ac120002",
-            name: "agent"
-          });
+          Role.create({
+            id: '7e5916de-4ef9-11ee-be56-0242ac120002',
+            name: 'agent'
+          })
         } catch (err) {
-          console.error(err);
+          console.error(err)
         }
       }
     }
   }
-);
+)
 
-module.exports = Role;
+module.exports = Role

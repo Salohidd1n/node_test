@@ -1,15 +1,11 @@
 FROM node:14
 
-# Create app directory
 WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-# Bundle app source
+COPY ./package*.json ./
+RUN npm ci
 COPY . .
+RUN chown -R node:node /app
+USER node
 
 EXPOSE 3000
-
-CMD [ "node", "index.js" ]
+CMD npm start

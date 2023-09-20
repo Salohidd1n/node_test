@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const db = require('../util/database')
 
-const User = db.define(
-  'users',
+const Customer = db.define(
+  'customers',
   {
     id: {
       type: Sequelize.UUID,
@@ -11,17 +11,20 @@ const User = db.define(
       defaultValue: Sequelize.UUIDV4()
     },
     first_name: Sequelize.STRING,
-    second_name: Sequelize.STRING,
+    surname: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    password: Sequelize.STRING,
+    passport_number: Sequelize.STRING,
     email: Sequelize.STRING,
     phone_number: Sequelize.STRING,
-    thumb: Sequelize.STRING,
-    role: Sequelize.UUID
+    date_of_birth: Sequelize.DATE,
+    gender: {
+      type: Sequelize.ENUM,
+      values: ['male', 'female']
+    }
   },
   {
     timestamps: true
   }
 )
 
-module.exports = User
+module.exports = Customer
