@@ -18,7 +18,10 @@ const Order = db.define(
     with_hotel: Sequelize.BOOLEAN,
     with_transport: Sequelize.BOOLEAN,
     has_insurance: Sequelize.BOOLEAN,
-    price: Sequelize.DOUBLE
+    price: Sequelize.DOUBLE,
+    customer_payments: {
+      type: Sequelize.TEXT
+    }
   },
   {
     timestamps: true

@@ -1,6 +1,5 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
-const { uuid } = require('uuidv4')
 
 // CRUD Controllers
 

@@ -14,7 +14,11 @@ const User = db.define(
     second_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
     password: Sequelize.STRING,
-    email: Sequelize.STRING,
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
     phone_number: Sequelize.STRING,
     thumb: Sequelize.STRING,
     role: Sequelize.UUID

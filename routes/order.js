@@ -6,5 +6,6 @@ const router = require('express').Router()
 router.post('/', controller.createOrder) // /users
 router.get('/:order_id', controller.getOrder) // /users
 router.put('/:order_id', controller.updateOrder) // /users
+router.delete('/:order_id', controller.deleteOrder) // /users
 
 module.exports = router

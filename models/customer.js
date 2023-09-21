@@ -13,7 +13,11 @@ const Customer = db.define(
     first_name: Sequelize.STRING,
     surname: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    passport_number: Sequelize.STRING,
+    passport_number: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
     email: Sequelize.STRING,
     phone_number: Sequelize.STRING,
     date_of_birth: Sequelize.DATE,

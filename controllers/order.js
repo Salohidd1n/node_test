@@ -14,7 +14,8 @@ exports.createOrder = async (req, res, next) => {
     flights,
     payment,
     customers,
-    user_id
+    user_id,
+    customer_payments
   } = req.body
 
   try {
@@ -43,7 +44,8 @@ exports.createOrder = async (req, res, next) => {
       has_insurance,
       price,
       payment_id: resultPayment.id,
-      user_id: user_id
+      user_id: user_id,
+      customer_payments: JSON.stringify(customer_payments)
     })
 
     const items = flights.map((item) => ({
@@ -105,7 +107,7 @@ exports.getOrder = async (req, res, next) => {
 
     res.status(201).json({
       message: 'Success',
-      order: order
+      order
     })
   } catch (err) {
     res.status(500).json({
@@ -124,7 +126,8 @@ exports.updateOrder = async (req, res, next) => {
     flights,
     payment,
     customers,
-    user_id
+    user_id,
+    customer_payments
   } = req.body
   try {
     const orderId = req.params.order_id
@@ -173,7 +176,8 @@ exports.updateOrder = async (req, res, next) => {
         has_insurance,
         price,
         payment_id: payment.id,
-        user_id: user_id
+        user_id: user_id,
+        customer_payments: JSON.stringify(customer_payments)
       },
       {
         where: {
@@ -212,4 +216,29 @@ exports.updateOrder = async (req, res, next) => {
       message: 'Failed to create order: ' + String(err)
     })
   }
+}
+
+exports.deleteOrder = (req, res, next) => {
+  const orderId = req.params.order_id
+
+  Order.findByPk(orderId)
+    .then((order) => {
+      if (!order) {
+        return res.status(404).json({ message: 'User not found!' })
+      }
+      Payment.destroy({
+        where: {
+          id: order.payment_id
+        }
+      })
+      return Order.destroy({
+        where: {
+          id: orderId
+        }
+      })
+    })
+    .then(() => {
+      res.status(200).json({ message: 'User deleted!' })
+    })
+    .catch((err) => console.log(err))
 }
