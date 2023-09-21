@@ -22,6 +22,7 @@ app.get('/', (req, res, next) => {
 //AUTH routes
 app.use('/auth', require('./routes/auth'))
 app.use('/order', require('./routes/order'))
+app.use('/customer', require('./routes/customer'))
 
 //CRUD routes
 app.use('/users', require('./routes/users'))

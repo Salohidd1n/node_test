@@ -224,7 +224,7 @@ exports.deleteOrder = (req, res, next) => {
   Order.findByPk(orderId)
     .then((order) => {
       if (!order) {
-        return res.status(404).json({ message: 'User not found!' })
+        return res.status(404).json({ message: 'Order not found!' })
       }
       Payment.destroy({
         where: {
@@ -238,7 +238,7 @@ exports.deleteOrder = (req, res, next) => {
       })
     })
     .then(() => {
-      res.status(200).json({ message: 'User deleted!' })
+      res.status(200).json({ message: 'Order deleted!' })
     })
     .catch((err) => console.log(err))
 }
