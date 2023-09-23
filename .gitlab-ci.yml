@@ -21,8 +21,8 @@ build-image-prod:
 
 deploy-prod:
   stage: deploy
-  before_script:
-    - 
+  # before_script:
+  #   - 
   script:
     - sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
           docker pull $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG && 
