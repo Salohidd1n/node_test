@@ -88,7 +88,7 @@ exports.updateUser = (req, res, next) => {
     role,
     new_password
   } = req.body
-
+  const userId = req.params.userId
   User.findByPk(userId)
     .then((user) => {
       if (!user) {
