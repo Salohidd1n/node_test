@@ -20,6 +20,7 @@ exports.getUsers = (req, res, next) => {
 //get user by id
 exports.getUser = (req, res, next) => {
   const userId = req.params.userId
+
   User.findByPk(userId)
     .then((user) => {
       if (!user) {
@@ -84,7 +85,8 @@ exports.updateUser = (req, res, next) => {
     email,
     phone_number,
     thumb,
-    role
+    role,
+    new_password
   } = req.body
 
   User.findByPk(userId)
@@ -92,6 +94,7 @@ exports.updateUser = (req, res, next) => {
       if (!user) {
         return res.status(404).json({ message: 'User not found!' })
       }
+      if (new_password) user.password = bcrypt.hashSync(new_password, 10)
       if (first_name) user.first_name = first_name
       if (last_name) user.last_name = last_name
       if (second_name) user.second_name = second_name
