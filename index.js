@@ -2,9 +2,11 @@ const express = require('express')
 const bodyparser = require('body-parser')
 const sequelize = require('./util/database')
 const authMid = require('./middleware/auth')
+const cors = require('cors')
 
 const app = express()
 
+app.use(cors())
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: false }))
 
@@ -21,6 +23,7 @@ app.get('/', (req, res, next) => {
 
 //AUTH routes
 app.use('/auth', require('./routes/auth'))
+
 app.use('/order', require('./routes/order'))
 app.use('/customer', require('./routes/customer'))
 

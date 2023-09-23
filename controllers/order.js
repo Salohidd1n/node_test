@@ -73,6 +73,53 @@ exports.createOrder = async (req, res, next) => {
   }
 }
 
+exports.getOrders = async (req, res, next) => {
+  console.log('orders===========>')
+  try {
+    const page = req.query.page || 0
+    const limit = req.query.limit || 10
+    const ignoredAttributes = { exclude: ['createdAt', 'updatedAt'] }
+    const orders = await Order.findAndCountAll({
+      include: [
+        {
+          model: Payment,
+          attributes: ignoredAttributes
+        },
+        {
+          model: User,
+          attributes: ignoredAttributes
+        },
+        {
+          model: Flight,
+          attributes: ignoredAttributes
+        },
+        {
+          model: Customer,
+          attributes: ignoredAttributes,
+          through: { attributes: [] }
+        }
+      ],
+      attributes: {
+        exclude: ['payment_id', 'user_id']
+      },
+      offset: page,
+      limit: limit
+    })
+
+    console.log('orders===>', orders)
+
+    res.status(201).json({
+      message: 'Success',
+      orders
+    })
+  } catch (err) {
+    console.log('err===>', err)
+    res.status(500).json({
+      message: 'Failed to create order: ' + String(err)
+    })
+  }
+}
+
 exports.getOrder = async (req, res, next) => {
   try {
     const orderId = req.params.order_id
