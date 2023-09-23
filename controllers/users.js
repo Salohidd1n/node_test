@@ -5,7 +5,13 @@ const bcrypt = require('bcrypt')
 
 //get all users
 exports.getUsers = (req, res, next) => {
-  User.findAll()
+  const page = req.query.page || 0
+  const limit = req.query.limit || 10
+  User.findAndCountAll({
+    offset: page,
+    limit: limit
+  })
+    .findAll()
     .then((users) => {
       res.status(200).json({ users: users })
     })
