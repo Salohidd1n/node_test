@@ -22,12 +22,12 @@ build-image-prod:
 deploy-prod:
   stage: deploy
   image: docker:20.10.16
+  image: teke97/sshpass_alpine
   services:
     - docker:20.10.16-dind
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   script:
-    - apt-get install -y sshpass
     - sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
           docker login -u $REGISTRY_USER -p $REGISTRY_PASS &&
           docker pull $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG && 
