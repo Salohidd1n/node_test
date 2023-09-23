@@ -11,7 +11,6 @@ exports.getUsers = (req, res, next) => {
     offset: page,
     limit: limit
   })
-    .findAll()
     .then((users) => {
       res.status(200).json({ users: users })
     })
