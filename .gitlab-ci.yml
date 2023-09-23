@@ -24,7 +24,9 @@ deploy-prod:
   script:
     - sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_HOST "
           docker login -u $REGISTRY_USER -p $REGISTRY_PASS &&
-          docker pull $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG && 
+          docker stop $PROD_CONTAINER_NAME  || true && 
+          docker rm $PROD_CONTAINER_NAME || true &&
+          docker image rm $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG || true &&
           docker run -d --name $PROD_CONTAINER_NAME -e PG_HOST=$PG_HOST 
           -e PG_DB=tripoasia_db -e PG_USER=tripoasia -e PG_PASSWORD=12345
           -p 3000:3000 $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG"
