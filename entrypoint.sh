@@ -1,3 +1,3 @@
 
 npx sequelize-cli db:migrate
-npm start
+npm run dev

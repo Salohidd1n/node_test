@@ -1,4 +1,4 @@
-const Role = require("../models/role");
+const { roles: Role } = require('../models')
 
 // CRUD Controllers
 
@@ -6,7 +6,7 @@ const Role = require("../models/role");
 exports.getRoles = (req, res, next) => {
   Role.findAll()
     .then((roles) => {
-      res.status(200).json({ roles: roles });
+      res.status(200).json({ roles: roles })
     })
-    .catch((err) => console.log(err));
-};
+    .catch((err) => console.log(err))
+}

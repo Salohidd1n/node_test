@@ -15,7 +15,8 @@ services:
       - NODE_ENV=production
     depends_on:
       - node_db
-    entrypoint: ['/bin/bash', './startup.sh']
+    entrypoint: ['/bin/bash', './entrypoint.sh']
+    command: npm run dev
     volumes:
       - .:/app/
       - /app/node_modules
@@ -29,7 +30,7 @@ services:
       - POSTGRES_DB=tripoasia_db
       - POSTGRES_USER=tripoasia
       - POSTGRES_PASSWORD=12345
-    # volumes:
-    #   - triposasia_db_data:/var/lib/postgresql/data
+    volumes:
+      - triposasia_db_data:/var/lib/postgresql/data
 volumes:
   triposasia_db_data: {}

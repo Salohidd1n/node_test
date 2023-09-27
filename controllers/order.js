@@ -1,8 +1,10 @@
-const Order = require('../models/order')
-const Flight = require('../models/flight')
-const Payment = require('../models/payment')
-const Customer = require('../models/customer')
-const User = require('../models/user')
+const {
+  orders: Order,
+  flights: Flight,
+  payments: Payment,
+  customers: Customer,
+  users: User
+} = require('../models')
 
 exports.createOrder = async (req, res, next) => {
   const {
@@ -15,7 +17,8 @@ exports.createOrder = async (req, res, next) => {
     payment,
     customers,
     user_id,
-    customer_payments
+    customer_payments,
+    agent_tip
   } = req.body
 
   try {
@@ -43,6 +46,7 @@ exports.createOrder = async (req, res, next) => {
       with_transport,
       has_insurance,
       price,
+      agent_tip,
       payment_id: resultPayment.id,
       user_id: user_id,
       customer_payments: JSON.stringify(customer_payments)
@@ -74,7 +78,6 @@ exports.createOrder = async (req, res, next) => {
 }
 
 exports.getOrders = async (req, res, next) => {
-  console.log('orders===========>')
   try {
     const page = req.query.page || 0
     const limit = req.query.limit || 10
@@ -174,7 +177,8 @@ exports.updateOrder = async (req, res, next) => {
     payment,
     customers,
     user_id,
-    customer_payments
+    customer_payments,
+    agent_tip
   } = req.body
   try {
     const orderId = req.params.order_id
@@ -222,6 +226,7 @@ exports.updateOrder = async (req, res, next) => {
         with_transport,
         has_insurance,
         price,
+        agent_tip,
         payment_id: payment.id,
         user_id: user_id,
         customer_payments: JSON.stringify(customer_payments)

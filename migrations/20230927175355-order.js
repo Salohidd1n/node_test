@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable('orders', {
       id: {
         type: Sequelize.UUID,
@@ -18,19 +18,8 @@ module.exports = {
       customer_payments: {
         type: Sequelize.TEXT
       },
-      payment_id: {
-        type: Sequelize.DataTypes.INTEGER,
-        references: {
-          model: {
-            tableName: 'payments',
-            schema: 'schema'
-          },
-          key: 'id'
-        },
-        allowNull: false
-      },
       user_id: {
-        type: Sequelize.DataTypes.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: {
             tableName: 'users',
@@ -39,10 +28,22 @@ module.exports = {
           key: 'id'
         },
         allowNull: false
+      },
+      payment_id: {
+        type: Sequelize.UUID,
+        references: {
+          model: {
+            tableName: 'payments',
+            schema: 'schema'
+          },
+          key: 'id'
+        },
+        allowNull: false
       }
     })
   },
-  down: (queryInterface, Sequelize) => {
+
+  async down(queryInterface, Sequelize) {
     return queryInterface.dropTable('orders')
   }
 }
