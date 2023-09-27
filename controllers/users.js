@@ -1,4 +1,4 @@
-const { user: User } = require('../models')
+const { users: User } = require('../models')
 const bcrypt = require('bcrypt')
 
 // CRUD Controllers

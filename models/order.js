@@ -4,7 +4,7 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
   const Order = sequelize.define(
-    'order',
+    'orders',
     {
       id: {
         type: Sequelize.UUID,
@@ -28,39 +28,39 @@ module.exports = function (sequelize) {
   )
 
   Order.associate = (models) => {
-    Order.belongsTo(models.user, {
+    Order.belongsTo(models.users, {
       foreignKey: 'user_id'
     })
 
-    models.user.hasMany(Order, {
+    models.users.hasMany(Order, {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: 'user_id'
     })
 
-    Order.hasMany(models.flight, {
+    Order.hasMany(models.flights, {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: 'order_id'
     })
 
-    models.flight.belongsTo(Order, {
+    models.flights.belongsTo(Order, {
       foreignKey: 'order_id'
     })
 
-    Order.belongsTo(models.payment, { foreignKey: 'payment_id' })
+    Order.belongsTo(models.payments, { foreignKey: 'payment_id' })
 
-    models.payment.hasOne(Order, {
+    models.payments.hasOne(Order, {
       foreignKey: 'payment_id',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     })
-    Order.belongsToMany(models.customer, {
+    Order.belongsToMany(models.customers, {
       through: 'orders_customers',
       foreignKey: 'order_id',
       otherKey: 'customer_id'
     })
-    models.customer.belongsToMany(Order, {
+    models.customers.belongsToMany(Order, {
       through: 'orders_customers',
       foreignKey: 'customer_id',
       otherKey: 'order_id'

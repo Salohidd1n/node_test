@@ -1,9 +1,9 @@
 const {
-  order: Order,
-  flight: Flight,
-  payment: Payment,
-  customer: Customer,
-  user: User
+  orders: Order,
+  flights: Flight,
+  payments: Payment,
+  customers: Customer,
+  users: User
 } = require('../models')
 
 exports.createOrder = async (req, res, next) => {

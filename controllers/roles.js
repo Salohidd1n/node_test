@@ -1,4 +1,4 @@
-const { role: Role } = require('../models')
+const { roles: Role } = require('../models')
 
 // CRUD Controllers
 

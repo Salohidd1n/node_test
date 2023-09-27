@@ -4,7 +4,7 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
   const Payment = sequelize.define(
-    'payment',
+    'payments',
     {
       id: {
         type: Sequelize.UUID,

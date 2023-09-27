@@ -4,7 +4,7 @@ const Sequelize = require('sequelize')
 
 module.exports = function (sequelize) {
   const Flight = sequelize.define(
-    'flight',
+    'flights',
     {
       id: {
         type: Sequelize.UUID,
