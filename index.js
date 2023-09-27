@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyparser = require('body-parser')
-const sequelize = require('./util/database')
+const models = require('./models')
 const authMid = require('./middleware/auth')
 const cors = require('cors')
 
@@ -40,7 +40,7 @@ app.use((error, req, res, next) => {
 })
 
 //sync database
-sequelize
+models.sequelize
   .sync()
   .then((result) => {
     console.log('Database connected')

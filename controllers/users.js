@@ -1,4 +1,4 @@
-const User = require('../models/user')
+const { user: User } = require('../models')
 const bcrypt = require('bcrypt')
 
 // CRUD Controllers
@@ -48,7 +48,7 @@ exports.createUser = async (req, res, next) => {
   } = req.body
 
   const hashedPwd = await bcrypt.hash(password, 10)
-
+  console.log('User======>')
   User.create({
     first_name: first_name,
     second_name: second_name,
