@@ -11,4 +11,4 @@ EXPOSE 3000
 RUN chmod +x startup.sh
 
 
-ENTRYPOINT [ "./startup.sh" ]
+ENTRYPOINT ["/bin/bash", "./startup.sh" ]
