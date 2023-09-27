@@ -21,7 +21,8 @@ const Order = db.define(
     price: Sequelize.DOUBLE,
     customer_payments: {
       type: Sequelize.TEXT
-    }
+    },
+    agent_tip: Sequelize.DOUBLE
   },
   {
     timestamps: true

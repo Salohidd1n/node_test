@@ -12,10 +12,10 @@ services:
       - PG_USER=tripoasia
       - PG_PASSWORD=12345
       - PG_HOST=node_db
-      - NODE_ENV=dev
+      - NODE_ENV=production
     depends_on:
       - node_db
-    command: npm run dev
+    entrypoint: ['/bin/bash', './startup.sh']
     volumes:
       - .:/app/
       - /app/node_modules
