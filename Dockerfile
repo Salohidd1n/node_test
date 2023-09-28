@@ -9,6 +9,5 @@ USER node
 
 EXPOSE 3000
 
-CMD npm start
-
-# ENTRYPOINT ["/bin/bash", "./startup.sh" ]
+# CMD npm start
+ENTRYPOINT ["/bin/bash", "./startup.sh" ]
