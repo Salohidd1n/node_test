@@ -1,6 +1,6 @@
-const { users: User } = require('../models')
+const { users: User, Sequelize } = require('../models')
 const bcrypt = require('bcrypt')
-
+const Op = Sequelize.Op
 // CRUD Controllers
 
 //get all users
@@ -32,6 +32,22 @@ exports.getUser = (req, res, next) => {
       console.log(err)
       return res.status(500).json({ message: 'User not created' })
     })
+}
+
+exports.getUserByName = (req, res, next) => {
+  const search = req.query.search
+
+  User.findAll({
+    where: {
+      first_name: {
+        [Op.like]: `%${search}%`
+      }
+    }
+  })
+    .then((users) => {
+      res.status(200).json({ users })
+    })
+    .catch((err) => res.status(404).json({ message: 'Not found' }))
 }
 
 //create user

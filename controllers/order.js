@@ -82,6 +82,7 @@ exports.getOrders = async (req, res, next) => {
     const page = req.query.page || 0
     const limit = req.query.limit || 10
     const ignoredAttributes = { exclude: ['createdAt', 'updatedAt'] }
+
     const orders = await Order.findAndCountAll({
       include: [
         {
@@ -106,10 +107,9 @@ exports.getOrders = async (req, res, next) => {
         exclude: ['payment_id', 'user_id']
       },
       offset: page,
-      limit: limit
+      limit: limit,
+      order: [['createdAt', 'DESC']]
     })
-
-    console.log('orders===>', orders)
 
     res.status(201).json({
       message: 'Success',
@@ -126,6 +126,7 @@ exports.getOrders = async (req, res, next) => {
 exports.getOrder = async (req, res, next) => {
   try {
     const orderId = req.params.order_id
+
     const ignoredAttributes = { exclude: ['createdAt', 'updatedAt'] }
     const order = await Order.findOne({
       where: {
