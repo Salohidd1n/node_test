@@ -28,7 +28,7 @@ deploy-prod:
       docker rm $PROD_CONTAINER_NAME || true &&
       docker image rm $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG || true &&
       docker run -d --name $PROD_CONTAINER_NAME -e PG_HOST=$PG_HOST
-      -e PG_DB=tripoasia_db -e PG_USER=tripoasia -e PG_PASSWORD=12345 -e TOKEN_KEY=tripoasia
+      -e PG_DB=tripoasia_db -e PG_USER=tripoasia -e PG_PASSWORD=12345 -e TOKEN_KEY=tripoasia -e NODE_ENV=production
       -p 3000:3000 $REGISTRY_USER/$PROJECT_NAME-$PROD_IMAGE:$PROD_TAG"
   only:
     - main
