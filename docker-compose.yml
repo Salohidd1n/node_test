@@ -16,7 +16,7 @@ services:
     depends_on:
       - node_db
     entrypoint: ['/bin/bash', './entrypoint.sh']
-    command: npm run dev
+    # command: npm run dev
     volumes:
       - .:/app/
       - /app/node_modules
