@@ -241,14 +241,15 @@ exports.updateOrder = async (req, res, next) => {
 
     await Flight.destroy({
       where: {
-        id: flights.map((item) => item.id)
+        order_id: orderId
       }
     })
 
     const items = flights.map((item) => ({
-      ...item,
       info: JSON.stringify(item.info),
-      order_id: orderId
+      order_id: orderId,
+      price: item.price,
+      type: item.type
     }))
 
     await Flight.bulkCreate(items)
