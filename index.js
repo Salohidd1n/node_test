@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 //test route
 app.get('/', (req, res, next) => {
-  res.send('Hello World10')
+  res.send('Hello World')
 })
 
 //AUTH routes

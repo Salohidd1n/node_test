@@ -3,8 +3,10 @@ const {
   flights: Flight,
   payments: Payment,
   customers: Customer,
-  users: User
+  users: User,
+  Sequelize
 } = require('../models')
+const Op = Sequelize.Op
 
 exports.createOrder = async (req, res, next) => {
   const {
@@ -82,6 +84,17 @@ exports.getOrders = async (req, res, next) => {
     const page = req.query.page || 0
     const limit = req.query.limit || 10
     const ignoredAttributes = { exclude: ['createdAt', 'updatedAt'] }
+    const userIds = req.query?.user_ids?.split(',') || []
+    const startDate = req.query?.start_date
+    const endDate = req.query?.end_date
+
+    let filter = {}
+    if (startDate && endDate)
+      filter.createdAt = {
+        [Op.between]: [new Date(startDate), new Date(endDate)]
+      }
+
+    if (userIds.length > 0) filter.user_id = userIds
 
     const orders = await Order.findAndCountAll({
       include: [
@@ -106,6 +119,10 @@ exports.getOrders = async (req, res, next) => {
       attributes: {
         exclude: ['payment_id', 'user_id']
       },
+      where: {
+        ...filter
+      },
+
       offset: page,
       limit: limit,
       order: [['createdAt', 'DESC']]
@@ -165,6 +182,33 @@ exports.getOrder = async (req, res, next) => {
       message: 'Failed to create order: ' + String(err)
     })
   }
+}
+
+exports.confirmOrder = async (req, res, next) => {
+  const { is_confirmed, with_hotel, with_transport, has_insurance, agent_tip } =
+    req.body
+  const orderId = req.params.order_id
+  Order.findByPk(orderId)
+    .then((order) => {
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found!' })
+      }
+      order.is_confirmed = is_confirmed
+      order.with_hotel = with_hotel
+      order.with_transport = with_transport
+      order.has_insurance = has_insurance
+      order.agent_tip = agent_tip
+
+      return order.save()
+    })
+    .then((result) => {
+      res.status(200).json({ message: 'Order updated!', order: result })
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: 'Failed to update order: ' + String(err)
+      })
+    })
 }
 
 exports.updateOrder = async (req, res, next) => {
@@ -267,7 +311,7 @@ exports.updateOrder = async (req, res, next) => {
     })
   } catch (err) {
     res.status(500).json({
-      message: 'Failed to create order: ' + String(err)
+      message: 'Failed to update order: ' + String(err)
     })
   }
 }
