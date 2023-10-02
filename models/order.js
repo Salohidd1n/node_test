@@ -20,6 +20,11 @@ module.exports = function (sequelize) {
       agent_tip: Sequelize.DOUBLE,
       customer_payments: {
         type: Sequelize.TEXT
+      },
+      external_order_id: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        autoIncrement: true
       }
     },
     {
