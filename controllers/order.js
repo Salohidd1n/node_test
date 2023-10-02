@@ -85,6 +85,7 @@ exports.getOrders = async (req, res, next) => {
     const limit = req.query.limit || 10
     const ignoredAttributes = { exclude: ['createdAt', 'updatedAt'] }
     const userIds = req.query?.user_ids?.split(',') || []
+    const externalOrderId = req.query?.external_order_id
     const startDate = req.query?.start_date
     const endDate = req.query?.end_date
 
@@ -92,6 +93,11 @@ exports.getOrders = async (req, res, next) => {
     if (startDate && endDate)
       filter.createdAt = {
         [Op.between]: [new Date(startDate), new Date(endDate)]
+      }
+
+    if (externalOrderId)
+      filter.external_order_id = {
+        [Op.like]: `%${externalOrderId}%`
       }
 
     if (userIds.length > 0) filter.user_id = userIds
