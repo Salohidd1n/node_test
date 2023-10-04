@@ -199,12 +199,25 @@ exports.confirmOrder = async (req, res, next) => {
       if (!order) {
         return res.status(404).json({ message: 'Order not found!' })
       }
+
       order.is_confirmed = is_confirmed
       order.with_hotel = with_hotel
       order.with_transport = with_transport
       order.has_insurance = has_insurance
       order.agent_tip = agent_tip
-
+      Payment.findByPk(order.payment_id)
+        .then((payment) => {
+          payment.total =
+            (has_insurance ? payment.insurance_price : 0) +
+            payment.price +
+            (agent_tip || 0)
+          return payment.save()
+        })
+        .catch((e) => {
+          res.status(500).json({
+            message: 'Failed to update order: ' + String(err)
+          })
+        })
       return order.save()
     })
     .then((result) => {
