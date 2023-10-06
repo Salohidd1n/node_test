@@ -6,6 +6,7 @@ const {
   users: User,
   Sequelize
 } = require('../models')
+const { sendEmail } = require('../utils/sendEmail')
 const Op = Sequelize.Op
 
 exports.createOrder = async (req, res, next) => {
@@ -220,7 +221,41 @@ exports.confirmOrder = async (req, res, next) => {
         })
       return order.save()
     })
-    .then((result) => {
+    .then(async (result) => {
+      User.findByPk(result.user_id).then(async (item) => {
+        await sendEmail({
+          to: item.email, // test
+          //to: 'dsadsa@dsad.dsa', // prod
+          subject: 'Application',
+          html: `<div>
+          <p>${result.order_external_id} is confirmed</p>
+          </div>`
+        })
+      })
+      const orderData = await Order.findOne({
+        where: {
+          id: orderId
+        },
+        include: [
+          {
+            model: Customer,
+            through: { attributes: [] }
+          }
+        ]
+      })
+
+      orderData.customers.forEach(async (data) => {
+        console.log('data', data.email)
+        await sendEmail({
+          to: data.email, // test
+          //to: 'dsadsa@dsad.dsa', // prod
+          subject: 'Application',
+          html: `<div>
+        <p>Test</p>
+        </div>`
+        })
+      })
+
       res.status(200).json({ message: 'Order updated!', order: result })
     })
     .catch((err) => {
