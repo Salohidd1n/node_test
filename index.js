@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyparser = require('body-parser')
 const models = require('./models')
-const authMid = require('./middleware/auth')
 const cors = require('cors')
 
 const app = express()
@@ -21,14 +20,7 @@ app.get('/', (req, res, next) => {
   res.send('Hello World')
 })
 
-//AUTH routes
-app.use('/auth', require('./routes/auth'))
-
 app.use('/order', require('./routes/order'))
-app.use('/customer', require('./routes/customer'))
-
-//CRUD routes
-app.use('/users', require('./routes/users'))
 // app.use('/roles', authMid, require('./routes/roles'))
 
 //error handling

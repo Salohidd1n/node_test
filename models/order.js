@@ -17,60 +17,12 @@ module.exports = function (sequelize) {
       with_transport: Sequelize.BOOLEAN,
       has_insurance: Sequelize.BOOLEAN,
       price: Sequelize.DOUBLE,
-      agent_tip: Sequelize.DOUBLE,
-      customer_payments: {
-        type: Sequelize.TEXT
-      },
-      external_order_id: {
-        type: Sequelize.INTEGER,
-        unique: true,
-        autoIncrement: true
-      }
+      agent_tip: Sequelize.DOUBLE
     },
     {
       timestamps: true
     }
   )
-
-  Order.associate = (models) => {
-    Order.belongsTo(models.users, {
-      foreignKey: 'user_id'
-    })
-
-    models.users.hasMany(Order, {
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      foreignKey: 'user_id'
-    })
-
-    Order.hasMany(models.flights, {
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      foreignKey: 'order_id'
-    })
-
-    models.flights.belongsTo(Order, {
-      foreignKey: 'order_id'
-    })
-
-    Order.belongsTo(models.payments, { foreignKey: 'payment_id' })
-
-    models.payments.hasOne(Order, {
-      foreignKey: 'payment_id',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
-    })
-    Order.belongsToMany(models.customers, {
-      through: 'orders_customers',
-      foreignKey: 'order_id',
-      otherKey: 'customer_id'
-    })
-    models.customers.belongsToMany(Order, {
-      through: 'orders_customers',
-      foreignKey: 'customer_id',
-      otherKey: 'order_id'
-    })
-  }
 
   return Order
 }

@@ -4,12 +4,12 @@ services:
   node_app:
     container_name: node_app
     build: .
-    image: tripoasia/node_live_app
+    image: node/node_live_app
     ports:
       - '3000:3000'
     environment:
-      - PG_DB=tripoasia_db
-      - PG_USER=tripoasia
+      - PG_DB=node_db_test
+      - PG_USER=db_username
       - PG_PASSWORD=12345
       - PG_HOST=node_db
       - NODE_ENV=production
@@ -27,10 +27,10 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_DB=tripoasia_db
-      - POSTGRES_USER=tripoasia
+      - POSTGRES_DB=node_db_test
+      - POSTGRES_USER=db_username
       - POSTGRES_PASSWORD=12345
     volumes:
-      - triposasia_db_data:/var/lib/postgresql/data
+      - node_db_test_data:/var/lib/postgresql/data
 volumes:
-  triposasia_db_data: {}
+  node_db_test_data: {}
